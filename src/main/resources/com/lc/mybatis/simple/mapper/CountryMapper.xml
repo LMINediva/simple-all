@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lc.mybatis.simple.mapper.CountryMapper">
+
+    <resultMap id="BaseResultMap" type="com.lc.mybatis.simple.model.Country">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="countryname" jdbcType="VARCHAR" property="countryname"/>
+        <result column="countrycode" jdbcType="VARCHAR" property="countrycode"/>
+    </resultMap>
+
+    <select id="selectAll" resultType="com.lc.mybatis.simple.model.Country">
+        select *
+        from country
+    </select>
+
+    <select id="selectCountries" statementType="CALLABLE" useCache="false">
+        {call SELECT_COUNTRIES(
+                #{ list1, mode = OUT, jdbcType = CURSOR,
+                 javaType = ResultSet, resultMap = BaseResultMap },
+                #{ list2, mode = OUT, jdbcType = CURSOR,
+                 javaType = ResultSet, resultMap = BaseResultMap }
+            )}
+    </select>
+
+</mapper>
